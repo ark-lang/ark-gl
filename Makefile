@@ -1,2 +1,2 @@
 all:
-	ark build -b src main --loglevel=verbose
+	ark build -b src main --loglevel=debug --unused

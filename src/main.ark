@@ -44,8 +44,8 @@ func main() -> int {
 
 	C::SDL_GL_SetSwapInterval(1);
 	for true {
-		C::glClearColor(0.0, 1.0, 0.0, 1.0);
-		C::glClear(GL_COLOR_BUFFER_BIT);
+		gl::C::glClearColor(0.0, 1.0, 0.0, 1.0);
+		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 		C::SDL_GL_SwapWindow(window);
 	}
 

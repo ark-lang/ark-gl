@@ -36,6 +36,7 @@ func main() -> int {
 	for true {
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
+		gl::C::glPolygonMode(gl::GL_FRONT_AND_BACK, gl::GL_FILL);
 		gl::C::glColor3f(1.0, 0, 0);
 		gl::C::glBegin(gl::GL_QUADS); 
 			gl::C::glVertex2f(0.0, 0.0);

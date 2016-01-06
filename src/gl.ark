@@ -1,9 +1,14 @@
+#link "GL"
+
 GL_COLOR_BUFFER_BIT := 0x00004000;
 
 GL_QUADS := 0x0007;
 GL_PROJECTION := 0x1700;
 GL_MODELVIEW := 0x1701;
+GL_FRONT_AND_BACK := 0x0408;
+GL_FILL := 0x1B02;
 
+[c] func glPolygonMode(face: int, mode: int);
 [c] func glClear(flag: int);
 [c] func glClearColor(r: f32, g: f32, b: f32, a: f32);
 [c] func glVertex2f(x: f32, y: f32);

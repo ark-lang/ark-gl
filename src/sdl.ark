@@ -1,5 +1,4 @@
 #link "SDL2"
-#link "GL"
 #link "pthread"
 
 type SDL_Window struct {};

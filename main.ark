@@ -1,0 +1,47 @@
+// C bindings
+[c] func printf(fmt: str, ...) -> int;
+
+// SDL
+type SDL_Window struct {};
+type SDL_Surface struct {
+	format: ^SDL_PixelFormat,
+};
+type SDL_PixelFormat struct {};
+
+SDL_INIT_EVERYTHING := 29233;
+NULL: s32 = 0;
+
+[c] func SDL_CreateWindow(title: ^u8, x: int, y: int, w: int, h: int, flags: s32) -> ^SDL_Window;
+[c] func SDL_GetWindowSurface(window: ^SDL_Window) -> ^SDL_Surface;
+[c] func SDL_Init(foo: int) -> int;
+[c] func SDL_Delay(time: s64);
+[c] func SDL_MapRGB(format: ^SDL_PixelFormat, r: u8, g: u8, b: u8) -> u32;
+[c] func SDL_FillRect(surface: ^SDL_Surface, some_flag: s32, rgb: u32);
+[c] func SDL_UpdateWindowSurface(surface: ^SDL_Surface);
+[c] func SDL_DestroyWindow(window: ^SDL_Window);
+[c] func SDL_Quit();
+
+// OpenGL
+
+func main() -> int {
+	// create our C string
+	y: []u8 = [u8('h'), u8('e'), u8('l'), u8('l'), u8('o')];
+
+	if (C::SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+		C::printf("SDL could not be initialized!\n");
+	}
+	
+	// pass pointer to start of string
+	window := C::SDL_CreateWindow(&y[0], 10, 10, 1280, 720, 0);
+	surface := C::SDL_GetWindowSurface(window);
+
+	C::SDL_FillRect(surface, NULL, C::SDL_MapRGB(surface.format, 0xff, 0xff, 0xff));
+	C::SDL_UpdateWindowSurface(surface);
+
+	C::SDL_Delay(2000);
+
+	C::SDL_DestroyWindow(window);
+	C::SDL_Quit();
+
+	return 0;
+}

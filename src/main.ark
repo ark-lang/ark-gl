@@ -17,6 +17,8 @@ type SDL_GLContext struct {};
 
 SDL_INIT_EVERYTHING := 29233;
 
+SDL_WINDOW_OPENGL = 0x00000002;
+
 [c] func SDL_CreateWindow(title: ^u8, x: int, y: int, w: int, h: int, flags: s32) -> ^SDL_Window;
 [c] func SDL_GetWindowSurface(window: ^SDL_Window) -> ^SDL_Surface;
 [c] func SDL_DestroyWindow(window: ^SDL_Window);
@@ -37,9 +39,9 @@ func main() -> int {
 	if (C::SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		C::printf("SDL could not be initialized!\n");
 	}
-	
+
 	// pass pointer to start of string
-	window := C::SDL_CreateWindow(&y[0], 10, 10, 1280, 720, 0);
+	window := C::SDL_CreateWindow(&y[0], 10, 10, 1280, 720, SDL_WINDOW_OPENGL);
 	context := C::SDL_GL_CreateContext(window);
 
 	C::SDL_GL_SetSwapInterval(1);

@@ -14,6 +14,9 @@ type SDL_Surface struct {
 };
 type SDL_PixelFormat struct {};
 type SDL_GLContext struct {};
+type SDL_Event struct {
+	type: int,
+};
 
 SDL_INIT_EVERYTHING := 0x0000FFFF;
 SDL_WINDOWPOS_CENTERED := 0x2FFF0000;
@@ -27,6 +30,7 @@ SDL_GL_CONTEXT_MAJOR_VERSION := 17;
 SDL_GL_CONTEXT_MINOR_VERSION := 18;
 SDL_GL_DOUBLEBUFFER := 5;
 SDL_GL_DEPTH_SIZE := 6;
+SDL_QUIT := 256;
 
 [c] func SDL_CreateWindow(title: ^u8, x: int, y: int, w: int, h: int, flags: int) -> ^SDL_Window;
 [c] func SDL_GetWindowSurface(window: ^SDL_Window) -> ^SDL_Surface;
@@ -40,9 +44,12 @@ SDL_GL_DEPTH_SIZE := 6;
 // flag isn't a flag, it's an enum
 [c] func SDL_GL_SetAttribute(flag: int, value: int);
 
+[c] func SDL_PollEvent(event: ^SDL_Event) -> bool;
 [c] func SDL_Init(foo: int) -> int;
 [c] func SDL_Delay(time: s64);
 [c] func SDL_Quit();
+
+mut running := true;
 
 func main() -> int {
 	// create our C string
@@ -59,19 +66,33 @@ func main() -> int {
 	C::SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
 	C::SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 	C::SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	C::SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	C::SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 
 	// weird string hack
 	window := C::SDL_CreateWindow(&y[0], SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL);
 	context := C::SDL_GL_CreateContext(window);
 
 	C::SDL_GL_SetSwapInterval(1);
-	gl::C::glClearColor(0.0, 1.0, 0.0, 1.0);
 
-	for true {
+	gl::C::glMatrixMode(gl::GL_PROJECTION);
+	gl::C::glLoadIdentity();
+	
+	gl::C::glMatrixMode(gl::GL_MODELVIEW);
+	gl::C::glLoadIdentity();
+
+	gl::C::glClearColor(0.0, 1.0, 0.0, 1.0);
+	for running {
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
+
+		gl::C::glColor3f(1.0, 0.0, 1.0);
+		gl::C::glBegin(gl::GL_QUADS); 
+			gl::C::glVertex2f(0 - 0.5, 0 - 0.5);
+			gl::C::glVertex2f(0.5, 0 - 0.5); 
+			gl::C::glVertex2f(0.5, 0.5); 
+			gl::C::glVertex2f(0 - 0.5, 0.5); 
+		gl::C::glEnd();
+
 		C::SDL_GL_SwapWindow(window);
-		C::SDL_Delay(2000);
 	}
 
 	C::SDL_GL_DeleteContext(context);

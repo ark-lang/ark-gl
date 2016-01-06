@@ -1,4 +1,14 @@
 GL_COLOR_BUFFER_BIT := 0x00004000;
 
+GL_QUADS := 0x0007;
+GL_PROJECTION := 0x1700;
+GL_MODELVIEW := 0x1701;
+
 [c] func glClear(flag: int);
 [c] func glClearColor(r: f64, g: f64, b: f64, a: f64);
+[c] func glVertex2f(x: f32, y: f32);
+[c] func glColor3f(r: f32, g: f32, b: f32);
+[c] func glBegin(flag: int);
+[c] func glEnd();
+[c] func glMatrixMode(f: int);
+[c] func glLoadIdentity();

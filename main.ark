@@ -9,6 +9,7 @@ type SDL_Surface struct {
 	format: ^SDL_PixelFormat,
 };
 type SDL_PixelFormat struct {};
+type SDL_GLContext struct {};
 
 SDL_INIT_EVERYTHING := 29233;
 NULL: s32 = 0;

@@ -36,12 +36,12 @@ func main() -> int {
 	for true {
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
-		gl::C::glColor3f(0, 0, 0);
+		gl::C::glColor3f(1.0, 0, 0);
 		gl::C::glBegin(gl::GL_QUADS); 
 			gl::C::glVertex2f(0.0, 0.0);
-			gl::C::glVertex2f(40.0, 0.0); 
-			gl::C::glVertex2f(40.0, 40.0); 
-			gl::C::glVertex2f(0.0, 40.0); 
+			gl::C::glVertex2f(120.0, 0.0); 
+			gl::C::glVertex2f(120.0, 120.0); 
+			gl::C::glVertex2f(0.0, 120.0); 
 		gl::C::glEnd();
 
 		sdl::C::SDL_GL_SwapWindow(window);

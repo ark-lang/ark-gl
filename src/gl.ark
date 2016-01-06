@@ -1,0 +1,4 @@
+GL_COLOR_BUFFER_BIT := 0x00004000;
+
+[c] func glClear(flag: int);
+[c] func glClearColor(r: f64, g: f64, b: f64, a: f64);

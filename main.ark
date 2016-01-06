@@ -1,4 +1,6 @@
 #link "SDL2"
+#link "GL"
+#link "pthread"
 
 // C bindings
 [c] func printf(fmt: str, ...) -> int;
@@ -12,19 +14,25 @@ type SDL_PixelFormat struct {};
 type SDL_GLContext struct {};
 
 SDL_INIT_EVERYTHING := 29233;
-NULL: s32 = 0;
 
 [c] func SDL_CreateWindow(title: ^u8, x: int, y: int, w: int, h: int, flags: s32) -> ^SDL_Window;
 [c] func SDL_GetWindowSurface(window: ^SDL_Window) -> ^SDL_Surface;
+[c] func SDL_DestroyWindow(window: ^SDL_Window);
+
+[c] func SDL_GL_SetSwapInterval(interval: s32);
+[c] func SDL_GL_CreateContext(window: ^SDL_Window) -> ^SDL_GLContext;
+[c] func SDL_GL_DeleteContext(context: ^SDL_GLContext);
+[c] func SDL_GL_SwapWindow(window: ^SDL_Window);
+
 [c] func SDL_Init(foo: int) -> int;
 [c] func SDL_Delay(time: s64);
-[c] func SDL_MapRGB(format: ^SDL_PixelFormat, r: u8, g: u8, b: u8) -> u32;
-[c] func SDL_FillRect(surface: ^SDL_Surface, some_flag: s32, rgb: u32);
-[c] func SDL_UpdateWindowSurface(surface: ^SDL_Surface);
-[c] func SDL_DestroyWindow(window: ^SDL_Window);
 [c] func SDL_Quit();
 
 // OpenGL
+GL_COLOR_BUFFER_BIT := 0x00004000;
+
+[c] func glClear(flag: int);
+[c] func glClearColor(r: f64, g: f64, b: f64, a: f64);
 
 func main() -> int {
 	// create our C string
@@ -36,12 +44,16 @@ func main() -> int {
 	
 	// pass pointer to start of string
 	window := C::SDL_CreateWindow(&y[0], 10, 10, 1280, 720, 0);
-	surface := C::SDL_GetWindowSurface(window);
+	context := C::SDL_GL_CreateContext(window);
 
+	C::SDL_GL_SetSwapInterval(1);
 	for true {
-		C::printf("running\n");
+		C::glClearColor(0.0, 1.0, 0.0, 1.0);
+		C::glClear(GL_COLOR_BUFFER_BIT);
+		C::SDL_GL_SwapWindow(window);
 	}
 
+	C::SDL_GL_DeleteContext(context);
 	C::SDL_DestroyWindow(window);
 	C::SDL_Quit();
 

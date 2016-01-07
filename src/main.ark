@@ -1,8 +1,11 @@
 #use gl
 #use sdl
+#use mem
 
 // C bindings
 [c] func printf(fmt: str, ...) -> int;
+[c] func malloc(size: uint) -> ^C::void;
+[c] func free(what: ^C::void);
 
 func main() -> int {
 	// create our C string
@@ -13,40 +16,77 @@ func main() -> int {
 	}
 
 	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_CONTEXT_MINOR_VERSION, 2);
-	
+	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_CONTEXT_PROFILE_MASK, sdl::SDL_GL_CONTEXT_PROFILE_CORE);
+		
 	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_RED_SIZE, 5);
 	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_GREEN_SIZE, 5);
 	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_BLUE_SIZE, 5);
 	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_DOUBLEBUFFER, 1);
 	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_DEPTH_SIZE, 16);
 
-	// weird string hack
+	// semi weird string hack
 	window := sdl::C::SDL_CreateWindow(&y[0], sdl::SDL_WINDOWPOS_CENTERED, sdl::SDL_WINDOWPOS_CENTERED, 1280, 720, sdl::SDL_WINDOW_OPENGL);
 	context := sdl::C::SDL_GL_CreateContext(window);
 
-	sdl::C::SDL_GL_SetSwapInterval(1);
+	gl::C::glewInit();
 
-	gl::C::glMatrixMode(gl::GL_PROJECTION);
-	gl::C::glLoadIdentity();
-	gl::C::glOrtho(0, 1280, 720, 0, 1, 0 - 1);
-	gl::C::glMatrixMode(gl::GL_MODELVIEW);
+	// attempt vertical sync
+	swap_interval := sdl::C::SDL_GL_SetSwapInterval(1);
+	if swap_interval < 0 {
+		C::printf("unable to set vsync %d\n", swap_interval);
+	}
 
-	gl::C::glClearColor(1.0, 1.0, 1.0, 1.0);
+	// clear in pink
+	gl::C::glClearColor(1.0, 0.0, 1.0, 1.0);
+	
+	// data for rendering stuff
+	// note the 0 - 0.5 is to avoid a 
+	// bug with ark
+	vbo_data: []f32 = [
+		0 - 0.5, 0 - 0.5,
+		0.5, 0 - 0.5,
+		0.5, 0.5,
+		0 - 0.5, 0.5
+	];
+	vbo_handle: uint = 0;
+
+	ibo_handle: uint = 0;
+	ibo_data: []uint = [0, 1, 2, 3];
+
+	// HACKZzzzZzz
+	ibo_dat := mem::alloc(8 * sizeof(f32));
+	mut ibo_idx: uint = 0;
+	ibo_data_len := #ibo_data;
+	for ibo_idx < ibo_data_len {
+		^(ibo_dat) + ibo_idx = ibo_data[ibo_idx];
+		ibo_idx += 1;
+	}
+
+	vbo_dat := mem::alloc(4 * sizeof(uint));
+	mut vbo_idx: uint = 0;
+	vbo_data_len := #vbo_data;
+	for vbo_idx < vbo_data_len {
+		^(vbo_dat) + vbo_idx = vbo_data[vbo_idx];
+		vbo_idx += 1;
+	}
+
+	gl::C::glGenBuffers(1, &vbo_handle);
+	gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vbo_handle);
+	gl::C::glBufferData(gl::GL_ARRAY_BUFFER, 2 * 4 * sizeof(f32), vbo_dat, gl::GL_STATIC_DRAW);
+
+	gl::C::glGenBuffers(1, &ibo_handle);
+	gl::C::glBindBuffer(gl::GL_ELEMENT_ARRAY_BUFFER, ibo_handle);
+	gl::C::glBufferData(gl::GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(uint), ibo_dat, gl::GL_STATIC_DRAW);
+
 	for true {
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
-		gl::C::glPolygonMode(gl::GL_FRONT_AND_BACK, gl::GL_FILL);
-		gl::C::glColor3f(1.0, 0, 0);
-		gl::C::glBegin(gl::GL_QUADS); 
-			gl::C::glVertex2f(0.0, 0.0);
-			gl::C::glVertex2f(120.0, 0.0); 
-			gl::C::glVertex2f(120.0, 120.0); 
-			gl::C::glVertex2f(0.0, 120.0); 
-		gl::C::glEnd();
-
 		sdl::C::SDL_GL_SwapWindow(window);
 	}
+
+	mem::delete(vbo_dat);
+	mem::delete(ibo_dat);
 
 	sdl::C::SDL_GL_DeleteContext(context);
 	sdl::C::SDL_DestroyWindow(window);

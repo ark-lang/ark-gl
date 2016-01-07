@@ -15,28 +15,37 @@ type SDL_Event struct {
 	type: int,
 };
 
+// misc flags
 SDL_INIT_EVERYTHING := 0x0000FFFF;
-SDL_WINDOWPOS_CENTERED := 0x2FFF0000;
 
+// window flags
+SDL_WINDOWPOS_CENTERED := 0x2FFF0000;
+SDL_WINDOW_OPENGL := 0x00000002;
+
+// gl enum stuff
+SDL_GL_CONTEXT_MAJOR_VERSION := 17;
+SDL_GL_CONTEXT_MINOR_VERSION := 18;
+SDL_GL_CONTEXT_PROFILE_MASK := 21;
+
+// gl context flags
+SDL_GL_CONTEXT_PROFILE_CORE := 0x0001;
+
+// gl attribute enum stuff
 SDL_GL_RED_SIZE := 0;
 SDL_GL_GREEN_SIZE := 1;
 SDL_GL_BLUE_SIZE := 2;
 SDL_GL_ALPHA_SIZE := 3;
-SDL_WINDOW_OPENGL := 0x00000002;
-SDL_GL_CONTEXT_MAJOR_VERSION := 17;
-SDL_GL_CONTEXT_MINOR_VERSION := 18;
 SDL_GL_DOUBLEBUFFER := 5;
 SDL_GL_DEPTH_SIZE := 6;
-SDL_QUIT := 256;
 
-[c] func malloc(sz: uint) -> ^C::void;
-[c] func free(what: ^C::void);
+// event flags
+SDL_QUIT := 0x100;
 
 [c] func SDL_CreateWindow(title: ^u8, x: int, y: int, w: int, h: int, flags: int) -> ^SDL_Window;
 [c] func SDL_GetWindowSurface(window: ^SDL_Window) -> ^SDL_Surface;
 [c] func SDL_DestroyWindow(window: ^SDL_Window);
 
-[c] func SDL_GL_SetSwapInterval(interval: int);
+[c] func SDL_GL_SetSwapInterval(interval: int) -> int;
 [c] func SDL_GL_CreateContext(window: ^SDL_Window) -> ^SDL_GLContext;
 [c] func SDL_GL_DeleteContext(context: ^SDL_GLContext);
 [c] func SDL_GL_SwapWindow(window: ^SDL_Window);
@@ -48,13 +57,3 @@ SDL_QUIT := 256;
 [c] func SDL_Init(foo: int) -> int;
 [c] func SDL_Delay(time: s64);
 [c] func SDL_Quit();
-
-type SDL struct {
-	
-};
-
-// static SDL functions or something pls?
-func sdl_init() -> ^SDL {
-	result: ^SDL = ^SDL(C::malloc(sizeof(SDL)));
-	return result;
-}

@@ -1,0 +1,12 @@
+[c] func printf(fmt: str, ...) -> int;
+[c] func malloc(size: uint) -> ^C::void;
+[c] func free(what: ^C::void);
+
+func alloc(size: uint) -> ^C::void {
+	C::printf("allocating %d bytes\n", size);
+	return C::malloc(size);
+}
+
+func delete(what: ^C::void) {
+	C::free(what);
+}

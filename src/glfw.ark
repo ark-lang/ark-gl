@@ -1,0 +1,32 @@
+#link "glfw"
+
+type GLFWwindow struct {};
+type GLFWmonitor struct {};
+
+GLFW_SAMPLES: int = 0x0002100D;
+GLFW_CONTEXT_VERSION_MAJOR: int = 0x00022002;
+GLFW_CONTEXT_VERSION_MINOR: int = 0x00022003;
+GLFW_OPENGL_FORWARD_COMPAT: int = 0x00022006;
+GLFW_OPENGL_PROFILE: int = 0x00022008;
+GLFW_OPENGL_CORE_PROFILE: int = 0x00032001;
+GLFW_KEY_ESCAPE: int = 256;
+GLFW_STICKY_KEYS: int = 0x00033002;
+GLFW_PRESS: int = 1;
+
+// window
+[c] func glfwWindowHint(target: int, hint: int);
+[c] func glfwCreateWindow(width: int, height: int, title: str, monitor: ^GLFWmonitor, share: ^GLFWwindow) -> ^GLFWwindow;
+[c] func glfwWindowShouldClose(window: ^GLFWwindow);
+[c] func glfwPollEvents();
+[c] func glfwSwapBuffers(window: ^GLFWwindow);
+
+// rendering?
+[c] func glfwMakeContextCurrent(context: ^GLFWwindow);
+
+// input
+[c] func glfwSetInputMode(context: ^GLFWwindow, mode: int, value: int) -> int;
+[c] func glfwGetKey(window: ^GLFWwindow, key: int) -> int;
+
+// misc
+[c] func glfwTerminate();
+[c] func glfwInit() -> int;

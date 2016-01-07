@@ -2,17 +2,15 @@
 #use sdl
 #use mem
 
-// C bindings
 [c] func printf(fmt: str, ...) -> int;
-[c] func malloc(size: uint) -> ^C::void;
-[c] func free(what: ^C::void);
 
 func main() -> int {
 	// create our C string
 	y: []u8 = [u8('h'), u8('e'), u8('l'), u8('l'), u8('o'), 0];
 
-	if (sdl::C::SDL_Init(sdl::SDL_INIT_EVERYTHING) < 0) {
-		C::printf("SDL could not be initialized!\n");
+	if sdl::C::SDL_Init(sdl::SDL_INIT_EVERYTHING) < 0 {
+		C::printf("failed to initialize SDL\n");
+		return -1;
 	}
 
 	sdl::C::SDL_GL_SetAttribute(sdl::SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -29,35 +27,49 @@ func main() -> int {
 	window := sdl::C::SDL_CreateWindow(&y[0], sdl::SDL_WINDOWPOS_CENTERED, sdl::SDL_WINDOWPOS_CENTERED, 1280, 720, sdl::SDL_WINDOW_OPENGL);
 	context := sdl::C::SDL_GL_CreateContext(window);
 
-	gl::C::glewInit();
+	if gl::C::glewInit() != 0 {
+		C::printf("failed to initialize glew\n");
+		return -1;
+	}
 
 	// attempt vertical sync
 	swap_interval := sdl::C::SDL_GL_SetSwapInterval(1);
-	if swap_interval < 0 {
-		C::printf("unable to set vsync %d\n", swap_interval);
-	}
 
 	// clear in pink
-	gl::C::glClearColor(1.0, 0.0, 1.0, 1.0);
-	
-	vbo_data: []C::void = [0, 1];
-	vbo_handle: uint = 0;
+	gl::C::glClearColor(0.2, 0.2, 0.2, 1.0);
 
-	ibo_data: []C::void = [0, 1];
-	ibo_handle: uint = 0;
+	vertices: []C::void = [
+		C::void(-1.0), C::void(-1.0), C::void(0.0),
+		C::void(1.0), C::void(-1.0), C::void(0.0),
+		C::void(0.0), C::void(1.0), C::void(0.0),
+	];
 
-	gl::C::glGenBuffers(1, &vbo_handle);
-	gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vbo_handle);
-	gl::C::glBufferData(gl::GL_ARRAY_BUFFER, 2 * 4 * sizeof(f32), &vbo_data[0], gl::GL_STATIC_DRAW);
+	vertexBuffer: uint = 0;
+	gl::C::glGenBuffers(1, &vertexBuffer);
+	gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vertexBuffer);
+	gl::C::glBufferData(gl::GL_ARRAY_BUFFER, 9 * sizeof(f32), &vertices[0], gl::GL_STATIC_DRAW);
 
-	gl::C::glGenBuffers(1, &ibo_handle);
-	gl::C::glBindBuffer(gl::GL_ELEMENT_ARRAY_BUFFER, ibo_handle);
-	gl::C::glBufferData(gl::GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(uint), &ibo_data[0], gl::GL_STATIC_DRAW);
-
-	for true {
+	mut running := true;
+	for running {
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
+		gl::C::glEnableVertexAttribArray(0);
+		gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vertexBuffer);
+		gl::C::glVertexAttribPointer(0, 3, gl::GL_FLOAT, gl::GL_FALSE, 0, ^C::void(0));
+		gl::C::glDrawArrays(gl::GL_TRIANGLES, 0, 3);
+		gl::C::glDisableVertexAttribArray(0);
+
 		sdl::C::SDL_GL_SwapWindow(window);
+
+		/* this causes a seg fault
+		for sdl::C::SDL_PollEvent(&e) {
+			if e.type == sdl::SDL_QUIT {
+				running = false;
+				return 1;
+			}
+		}
+		*/
+		sdl::C::SDL_Delay(16);
 	}
 
 	sdl::C::SDL_GL_DeleteContext(context);

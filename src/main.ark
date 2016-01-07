@@ -40,52 +40,25 @@ func main() -> int {
 	// clear in pink
 	gl::C::glClearColor(1.0, 0.0, 1.0, 1.0);
 	
-	vbo_data: []f32 = [
-		-0.5, -0.5,
-		0.5, -0.5,
-		0.5, 0.5,
-		-0.5, 0.5
-	];
+	vbo_data: []C::void = [0, 1];
 	vbo_handle: uint = 0;
 
+	ibo_data: []C::void = [0, 1];
 	ibo_handle: uint = 0;
-	ibo_data: []uint = [0, 1, 2, 3];
-
-	// HACKZzzzZzz
-	ibo_dat := mem::alloc(8 * sizeof(f32));
-	mut ibo_idx: uint = 0;
-	ibo_data_len := #ibo_data;
-	for ibo_idx < ibo_data_len {
-		^(ibo_dat) + ibo_idx = ibo_data[ibo_idx];
-		ibo_idx += 1;
-	}
-
-	vbo_dat := mem::alloc(4 * sizeof(uint));
-	mut vbo_idx: uint = 0;
-	vbo_data_len := #vbo_data;
-	for vbo_idx < vbo_data_len {
-		^(vbo_dat) + vbo_idx = vbo_data[vbo_idx];
-		vbo_idx += 1;
-	}
-
-	x: []C::void = [0, 1];
 
 	gl::C::glGenBuffers(1, &vbo_handle);
 	gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vbo_handle);
-	gl::C::glBufferData(gl::GL_ARRAY_BUFFER, 2 * 4 * sizeof(f32), vbo_dat, gl::GL_STATIC_DRAW);
+	gl::C::glBufferData(gl::GL_ARRAY_BUFFER, 2 * 4 * sizeof(f32), &vbo_data[0], gl::GL_STATIC_DRAW);
 
 	gl::C::glGenBuffers(1, &ibo_handle);
 	gl::C::glBindBuffer(gl::GL_ELEMENT_ARRAY_BUFFER, ibo_handle);
-	gl::C::glBufferData(gl::GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(uint), ibo_dat, gl::GL_STATIC_DRAW);
+	gl::C::glBufferData(gl::GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(uint), &ibo_data[0], gl::GL_STATIC_DRAW);
 
 	for true {
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
 		sdl::C::SDL_GL_SwapWindow(window);
 	}
-
-	mem::delete(vbo_dat);
-	mem::delete(ibo_dat);
 
 	sdl::C::SDL_GL_DeleteContext(context);
 	sdl::C::SDL_DestroyWindow(window);

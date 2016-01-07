@@ -16,7 +16,7 @@ func main() -> int {
 	glfw::C::glfwWindowHint(glfw::GLFW_OPENGL_FORWARD_COMPAT, gl::GL_TRUE);
 	glfw::C::glfwWindowHint(glfw::GLFW_OPENGL_PROFILE, glfw::GLFW_OPENGL_CORE_PROFILE);
 
-	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(1280, 720, "feck off", ^glfw::GLFWmonitor(0), ^glfw::GLFWwindow(0));
+	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(1280, 720, "Hello, 世界", ^glfw::GLFWmonitor(0), ^glfw::GLFWwindow(0));
 	if window == ^glfw::GLFWwindow(0) {
 		C::printf("failed to create window\n");
 		glfw::C::glfwTerminate();

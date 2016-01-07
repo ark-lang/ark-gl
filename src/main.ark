@@ -40,14 +40,11 @@ func main() -> int {
 	// clear in pink
 	gl::C::glClearColor(1.0, 0.0, 1.0, 1.0);
 	
-	// data for rendering stuff
-	// note the 0 - 0.5 is to avoid a 
-	// bug with ark
 	vbo_data: []f32 = [
-		0 - 0.5, 0 - 0.5,
-		0.5, 0 - 0.5,
+		-0.5, -0.5,
+		0.5, -0.5,
 		0.5, 0.5,
-		0 - 0.5, 0.5
+		-0.5, 0.5
 	];
 	vbo_handle: uint = 0;
 
@@ -70,6 +67,8 @@ func main() -> int {
 		^(vbo_dat) + vbo_idx = vbo_data[vbo_idx];
 		vbo_idx += 1;
 	}
+
+	x: []C::void = [0, 1];
 
 	gl::C::glGenBuffers(1, &vbo_handle);
 	gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vbo_handle);

@@ -26,7 +26,7 @@ GL_FILL := 0x1B02;
 [c] func glVertex2f(x: f32, y: f32);
 [c] func glColor3f(r: f32, g: f32, b: f32);
 [c] func glBegin(flag: int);
-[c] func glOrtho(left: f32, right: f32, bottom: f32, top: f32, near: f32, far: f32);
+[c] func glOrtho(left: f64, right: f64, bottom: f64, top: f64, near: f64, far: f64);
 [c] func glEnd();
 [c] func glMatrixMode(f: int);
 [c] func glLoadIdentity();

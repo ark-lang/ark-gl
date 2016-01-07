@@ -13,7 +13,6 @@ func main() -> int {
 	glfw::C::glfwWindowHint(glfw::GLFW_SAMPLES, 4);
 	glfw::C::glfwWindowHint(glfw::GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfw::C::glfwWindowHint(glfw::GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfw::C::glfwWindowHint(glfw::GLFW_OPENGL_FORWARD_COMPAT, gl::GL_TRUE);
 	glfw::C::glfwWindowHint(glfw::GLFW_OPENGL_PROFILE, glfw::GLFW_OPENGL_CORE_PROFILE);
 
 	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(1280, 720, "Hello, 世界", ^glfw::GLFWmonitor(0), ^glfw::GLFWwindow(0));
@@ -30,10 +29,11 @@ func main() -> int {
 		return -1;
 	}
 
-	glfw::C::glfwSetInputMode(window, glfw::GLFW_STICKY_KEYS, gl::GL_TRUE);
+	glfw::C::glfwSetInputMode(window, glfw::GLFW_STICKY_KEYS, 1);
 
 	gl::C::glClearColor(0.2, 0.2, 0.2, 1.0);
 
+/** modern 
 	vertices: []C::void = [
 		C::void(-1.0), C::void(-1.0), C::void(0.0),
 		C::void(1.0), C::void(-1.0), C::void(0.0),
@@ -44,15 +44,24 @@ func main() -> int {
 	gl::C::glGenBuffers(1, &vertexBuffer);
 	gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vertexBuffer);
 	gl::C::glBufferData(gl::GL_ARRAY_BUFFER, 9 * sizeof(f32), &vertices[0], gl::GL_STATIC_DRAW);
+*/
+
+	gl::C::glMatrixMode(gl::GL_PROJECTION);
+	gl::C::glLoadIdentity();
+	gl::C::glOrtho(0, 1280, 720, 0, 1, -1);
+	gl::C::glMatrixMode(gl::GL_MODELVIEW);
 
 	for {
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
-		gl::C::glEnableVertexAttribArray(0);
-		gl::C::glBindBuffer(gl::GL_ARRAY_BUFFER, vertexBuffer);
-		gl::C::glVertexAttribPointer(0, 3, gl::GL_FLOAT, gl::GL_FALSE, 0, ^C::void(0));
-		gl::C::glDrawArrays(gl::GL_TRIANGLES, 0, 3);
-		gl::C::glDisableVertexAttribArray(0);
+		gl::C::glColor3f(0.25, 0.25, 1.0);
+
+		gl::C::glBegin(gl::GL_QUADS);
+			gl::C::glVertex2f(0.0, 0.0);
+			gl::C::glVertex2f(30.0, 0.0);
+			gl::C::glVertex2f(30.0, 30.0);
+			gl::C::glVertex2f(0.0, 30.0);
+		gl::C::glEnd();
 
 		glfw::C::glfwSwapBuffers(window);
 		glfw::C::glfwPollEvents();

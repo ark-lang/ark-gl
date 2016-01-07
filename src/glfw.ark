@@ -19,9 +19,12 @@ GLFW_PRESS: C::int = 1;
 [c] func glfwWindowShouldClose(window: ^GLFWwindow);
 [c] func glfwPollEvents();
 [c] func glfwSwapBuffers(window: ^GLFWwindow);
+[c] func glfwDestroyWindow(window: ^GLFWwindow);
 
 // rendering?
 [c] func glfwMakeContextCurrent(context: ^GLFWwindow);
+[c] func glfwGetFramebufferSize(window: ^GLFWwindow, width: ^int, height: ^int);
+[c] func glfwGetTime() -> f64;
 
 // input
 [c] func glfwSetInputMode(context: ^GLFWwindow, mode: C::int, value: C::int) -> C::int;

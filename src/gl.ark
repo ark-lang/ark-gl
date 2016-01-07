@@ -7,6 +7,7 @@ GL_ARRAY_BUFFER := 0x8892;
 GL_STATIC_DRAW := 0x88E4;
 GL_ELEMENT_ARRAY_BUFFER := 0x8893;
 GL_FLOAT := 0x1406;
+GL_LINE := 0x1b01;
 
 GL_FALSE := 0;
 GL_TRUE := 1;
@@ -24,12 +25,15 @@ GL_FILL := 0x1B02;
 [c] func glClear(flag: int);
 [c] func glClearColor(r: f32, g: f32, b: f32, a: f32);
 [c] func glVertex2f(x: f32, y: f32);
+[c] func glVertex3f(x: f32, y: f32, z: f32);
 [c] func glColor3f(r: f32, g: f32, b: f32);
 [c] func glBegin(flag: int);
 [c] func glOrtho(left: f64, right: f64, bottom: f64, top: f64, near: f64, far: f64);
 [c] func glEnd();
 [c] func glMatrixMode(f: int);
 [c] func glLoadIdentity();
+[c] func glViewport(x: int, y: int, width: int, height: int);
+[c] func glRotatef(amount: f32, x: f32, y: f32, z: f32);
 
 // glew
 [c] func glewInit() -> int;

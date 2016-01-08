@@ -8,6 +8,6 @@ You will need:
 * Ark compiler
 * GLEW, GLU, GLFW
 
-<img src="//felixangell.com/img/ark-opengl.gif">
+<img src="http://felixangell.com/img/ark-opengl.gif">
 
-_ This is the result of this program_
+_This is the result of this program_

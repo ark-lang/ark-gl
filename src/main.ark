@@ -10,7 +10,10 @@ func main() -> int {
 		return -1;
 	}
 
-	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(1280, 720, "Hello, 世界", ^glfw::GLFWmonitor(0), ^glfw::GLFWwindow(0));
+	width: int = 640;
+	height: int = 640;
+
+	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(C::int(width), C::int(height), "Hello, 世界", ^glfw::GLFWmonitor(0), ^glfw::GLFWwindow(0));
 	if window == ^glfw::GLFWwindow(0) {
 		C::printf("failed to create window\n");
 		glfw::C::glfwTerminate();
@@ -18,14 +21,10 @@ func main() -> int {
 
 	glfw::C::glfwMakeContextCurrent(window);
 
-	mut ratio: f64 = 1.7777; // 1280 / 720
-	mut width: int;
-	mut height: int;
+	mut ratio: f64 = f64(width / height);
 	mut time: f64;
 
 	for {
-		glfw::C::glfwGetFramebufferSize(window, &width, &height);
-
 		gl::C::glViewport(0, 0, width, height);
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
@@ -50,7 +49,7 @@ func main() -> int {
 		glfw::C::glfwSwapBuffers(window);
 		glfw::C::glfwPollEvents();
 
-		if (glfw::C::glfwGetKey(window, glfw::GLFW_KEY_ESCAPE) == glfw::GLFW_PRESS) {
+		if glfw::C::glfwGetKey(window, glfw::GLFW_KEY_ESCAPE) == glfw::GLFW_PRESS {
 			glfw::C::glfwDestroyWindow(window);
 			glfw::C::glfwTerminate();
 			return 0;

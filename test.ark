@@ -1,0 +1,9 @@
+func spack(x: f64) {
+
+}
+
+func main() -> int {
+	x: f64 = 123;
+	spack(x / x);		
+	return 0;
+}

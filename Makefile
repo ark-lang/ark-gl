@@ -1,2 +1,2 @@
 all:
-	ark build -b src main --loglevel=debug --unused
+	ark build -b src src/main.ark --loglevel=debug --unused

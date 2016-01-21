@@ -1,21 +1,21 @@
 #link "glfw"
 
-type GLFWwindow struct {};
-type GLFWmonitor struct {};
+pub type GLFWwindow struct {};
+pub type GLFWmonitor struct {};
 
-GLFW_SAMPLES: C::int = 0x0002100D;
-GLFW_CONTEXT_VERSION_MAJOR: C::int = 0x00022002;
-GLFW_CONTEXT_VERSION_MINOR: C::int = 0x00022003;
-GLFW_OPENGL_FORWARD_COMPAT: C::int = 0x00022006;
-GLFW_OPENGL_PROFILE: C::int = 0x00022008;
-GLFW_OPENGL_CORE_PROFILE: C::int = 0x00032001;
-GLFW_KEY_ESCAPE: C::int = 256;
-GLFW_STICKY_KEYS: C::int = 0x00033002;
-GLFW_PRESS: C::int = 1;
+pub GLFW_SAMPLES: C::int = 0x0002100D;
+pub GLFW_CONTEXT_VERSION_MAJOR: C::int = 0x00022002;
+pub GLFW_CONTEXT_VERSION_MINOR: C::int = 0x00022003;
+pub GLFW_OPENGL_FORWARD_COMPAT: C::int = 0x00022006;
+pub GLFW_OPENGL_PROFILE: C::int = 0x00022008;
+pub GLFW_OPENGL_CORE_PROFILE: C::int = 0x00032001;
+pub GLFW_KEY_ESCAPE: C::int = 256;
+pub GLFW_STICKY_KEYS: C::int = 0x00033002;
+pub GLFW_PRESS: C::int = 1;
 
 // window
 [c] func glfwWindowHint(target: C::int, hint: C::int);
-[c] func glfwCreateWindow(width: C::int, height: C::int, title: str, monitor: ^GLFWmonitor, share: ^GLFWwindow) -> ^GLFWwindow;
+[c] func glfwCreateWindow(width: C::int, height: C::int, title: string, monitor: ^GLFWmonitor, share: ^GLFWwindow) -> ^GLFWwindow;
 [c] func glfwWindowShouldClose(window: ^GLFWwindow);
 [c] func glfwPollEvents();
 [c] func glfwSwapBuffers(window: ^GLFWwindow);

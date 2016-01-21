@@ -1,4 +1,4 @@
-[c] func printf(fmt: str, ...) -> int;
+[c] func printf(fmt: string, ...) -> int;
 [c] func malloc(size: uint) -> ^C::void;
 [c] func free(what: ^C::void);
 

@@ -2,9 +2,9 @@
 #use glfw
 #use mem
 
-[c] func printf(fmt: str, ...) -> int;
+[c] func printf(fmt: string, ...) -> int;
 
-func main() -> int {
+pub func main() -> int {
 	if glfw::C::glfwInit() == 0 {
 		C::printf("failed to initialize glfw\n");
 		return -1;

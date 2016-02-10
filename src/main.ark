@@ -13,8 +13,8 @@ pub func main() -> int {
 	width: int = 640;
 	height: int = 640;
 
-	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(C::int(width), C::int(height), "Hello, 世界", ^glfw::GLFWmonitor(0), ^glfw::GLFWwindow(0));
-	if window == ^glfw::GLFWwindow(0) {
+	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(C::int(width), C::int(height), "Hello, 世界", (^glfw::GLFWmonitor)(0), (^glfw::GLFWwindow)(0));
+	if window == (^glfw::GLFWwindow)(0) {
 		C::printf("failed to create window\n");
 		glfw::C::glfwTerminate();
 	}

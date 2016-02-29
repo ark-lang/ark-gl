@@ -1,7 +1,7 @@
 #use std::mem
 #use std::io
 
-#use std::ds
+#use std::adt
 
 #use entity
 #use gl
@@ -12,13 +12,13 @@ RAND_MAX : f32 = 2147483647;
 [c] func rand() -> int;
 
 pub type Game struct {
-	entities: ^mut ds::List<^mut entity::Entity>,	
+	entities: ^mut adt::List<^mut entity::Entity>,	
 };
 
 pub func (Game) NewGame() -> ^mut Game {
 	game := mem::alloc<Game>();
 	@game = Game{
-		entities: ds::List::new<^mut entity::Entity>(),
+		entities: adt::List::new<^mut entity::Entity>(),
 	};
 
 	mut i := 0;

@@ -50,8 +50,8 @@ pub func (p: ^mut Entity) update() {
 	}
 
 	// dont think += works here
-	p.x = p.x + p.xDir;
-	p.y = p.y + p.yDir;
+	p.x += p.xDir;
+	p.y += p.yDir;
 }
 
 pub func (p: ^mut Entity) render() {

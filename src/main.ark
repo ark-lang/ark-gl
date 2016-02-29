@@ -1,50 +1,49 @@
 #use gl
 #use glfw
-#use mem
+#use game
 
-[c] func printf(fmt: string, ...) -> int;
+[c] func printf(fmt: ^u8, ...) -> int;
+
+WIDTH := 800;
+HEIGHT := 600;
 
 pub func main() -> int {
 	if glfw::C::glfwInit() == 0 {
-		C::printf("failed to initialize glfw\n");
+		C::printf(c"failed to initialize glfw\n");
 		return -1;
 	}
 
-	width: int = 640;
-	height: int = 640;
-
-	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(C::int(width), C::int(height), c"Hello, 世界", (^glfw::GLFWmonitor)(0), (^glfw::GLFWwindow)(0));
+	window: ^glfw::GLFWwindow = glfw::C::glfwCreateWindow(C::int(WIDTH), C::int(HEIGHT), c"Hello, 世界", (^glfw::GLFWmonitor)(0), (^glfw::GLFWwindow)(0));
 	if window == (^glfw::GLFWwindow)(0) {
-		C::printf("failed to create window\n");
+		C::printf(c"failed to create window\n");
 		glfw::C::glfwTerminate();
 	}
 
 	glfw::C::glfwMakeContextCurrent(window);
 
-	mut ratio: f64 = f64(width / height);
+	mut ratio: f64 = f64(WIDTH / HEIGHT);
 	mut time: f64;
 
+	// map width and height in tiles
+	mut mw: f32 = 32;
+	mut mh: f32 = 32;
+
+	game := game::Game::NewGame();
+
 	for {
-		gl::C::glViewport(0, 0, width, height);
+		gl::C::glViewport(0, 0, WIDTH, HEIGHT);
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
 
 		gl::C::glMatrixMode(gl::GL_PROJECTION);
 		gl::C::glLoadIdentity();
-		gl::C::glOrtho(0 - ratio, ratio, -1, 1, 1, -1);
+		gl::C::glOrtho(0, f64(WIDTH), f64(HEIGHT), 0, 1, -1);
 		gl::C::glMatrixMode(gl::GL_MODELVIEW);
 
 		gl::C::glLoadIdentity();
 		time = glfw::C::glfwGetTime();
-		gl::C::glRotatef(f32(time) * 50, 0, 0, 1);
 
-		gl::C::glBegin(gl::GL_TRIANGLES);
-	        gl::C::glColor3f(1, 0, 0);
-	        gl::C::glVertex3f(-0.6, -0.4, 0);
-	        gl::C::glColor3f(0, 1, 0);
-	        gl::C::glVertex3f(0.6, -0.4, 0);
-	        gl::C::glColor3f(0, 0, 1);
-	        gl::C::glVertex3f(0, 0.4, 0);
-        gl::C::glEnd();
+		game.update();
+		game.render();
 
 		glfw::C::glfwSwapBuffers(window);
 		glfw::C::glfwPollEvents();

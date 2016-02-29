@@ -1,0 +1,22 @@
+#use std::mem
+
+[c] func printf(fmt: ^u8, ...) -> int;
+
+pub type Game struct {
+		
+};
+
+pub func (Game) NewGame() -> ^Game {
+	game := mem::alloc<Game>();
+	@game = Game{};
+	return game;
+}
+
+pub func (g: ^Game) render() {
+	
+}
+
+pub func (g: ^Game) update() {
+	
+}
+

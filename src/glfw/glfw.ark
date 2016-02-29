@@ -15,7 +15,7 @@ pub GLFW_PRESS: C::int = 1;
 
 // window
 [c] func glfwWindowHint(target: C::int, hint: C::int);
-[c] func glfwCreateWindow(width: C::int, height: C::int, title: string, monitor: ^GLFWmonitor, share: ^GLFWwindow) -> ^GLFWwindow;
+[c] func glfwCreateWindow(width: C::int, height: C::int, title: ^u8, monitor: ^GLFWmonitor, share: ^GLFWwindow) -> ^GLFWwindow;
 [c] func glfwWindowShouldClose(window: ^GLFWwindow);
 [c] func glfwPollEvents();
 [c] func glfwSwapBuffers(window: ^GLFWwindow);

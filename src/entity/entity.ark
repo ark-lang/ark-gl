@@ -9,9 +9,7 @@ RAND_MAX : f32 = 2147483647;
 [c] func rand() -> int;
 
 type Colour struct {
-	r: f32,
-	g: f32,
-	b: f32,
+	r: f32, g: f32, b: f32,
 };
 
 func randomColour() -> ^Colour {
@@ -51,6 +49,7 @@ pub func (p: ^mut Entity) update() {
 		p.yDir *= -1;
 	}
 
+	// dont think += works here
 	p.x = p.x + p.xDir;
 	p.y = p.y + p.yDir;
 }

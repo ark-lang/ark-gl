@@ -1,0 +1,37 @@
+#use std::mem
+
+#use gl
+
+pub type Entity struct {
+	x: f32,
+	y: f32,
+	xDir: f32,
+	yDir: f32,
+};
+
+pub func (Entity) NewEntity(x: f32, y: f32, xDir: f32, yDir: f32) -> ^mut Entity {
+	player := mem::alloc<Entity>();
+	@player = Entity{
+		x: x,
+		y: y,
+		xDir: xDir,
+		yDir: yDir,
+	};
+	return player;
+}
+
+pub func (p: ^mut Entity) update() {
+	if (p.x >= f32(800 - 32)) || (p.x < f32(0)) {
+		p.xDir *= -1;
+	} else if (p.y >= f32(600 - 32)) || (p.y < f32(0)) {
+		p.yDir *= -1;
+	}
+
+	p.x = p.x + p.xDir;
+	p.y = p.y + p.yDir;
+}
+
+pub func (p: ^mut Entity) render() {
+	gl::setColor(255, 0, 255);
+	gl::drawRect(p.x, p.y, 32, 32);
+}

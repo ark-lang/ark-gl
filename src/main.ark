@@ -21,7 +21,7 @@ pub func main() -> int {
 
 	glfw::C::glfwMakeContextCurrent(window);
 
-	game := game::Game::NewGame();
+	mut game := game::Game::NewGame();
 
 	for {
 		// opengl setup stuff, setting opengl

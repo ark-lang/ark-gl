@@ -1,22 +1,53 @@
 #use std::mem
 #use std::io
 
+#use std::ds
+
+#use entity
 #use gl
 
-pub type Game struct {};
+NUM_ENTITIES := 128;
+RAND_MAX : f32 = 2147483647;
 
-pub func (Game) NewGame() -> ^Game {
+[c] func rand() -> int;
+
+pub type Game struct {
+	entities: ^mut ds::List<^mut entity::Entity>,	
+};
+
+pub func (Game) NewGame() -> ^mut Game {
 	game := mem::alloc<Game>();
-	@game = Game{};
+	@game = Game{
+		entities: ds::List::new<^mut entity::Entity>(),
+	};
+
+	mut i := 0;
+	speed : f32 = 4;
+	for i < NUM_ENTITIES {
+		xDir := (f32(C::rand()) / RAND_MAX) * speed;
+		yDir := (f32(C::rand()) / RAND_MAX) * speed;
+		game.entities.append(entity::Entity::NewEntity(10, 10, xDir, yDir));
+		i += 1;
+	}
+
 	return game;
 }
 
 pub func (g: ^Game) render() {
-	gl::setColor(255, 0, 255);
-	gl::drawRect(0, 0, 40, 40);
+	mut i := uint(0);
+	for i < g.entities.getLength() {
+		entity : ^entity::Entity = g.entities.get(i);
+		entity.render();
+		i += 1;
+	}
 }
 
-pub func (g: ^Game) update() {
-		
+pub func (g: ^mut Game) update() {
+	mut i := uint(0);
+	for i < g.entities.getLength() {
+		entity : ^entity::Entity = g.entities.get(i);
+		entity.update();
+		i += 1;
+	}
 }
 

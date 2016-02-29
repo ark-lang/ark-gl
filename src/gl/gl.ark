@@ -47,3 +47,26 @@ pub GL_FILL := 0x1B02;
 [c] func glVertexAttribPointer(index: uint, size: int, type: int, normalized: int, stride: uint, data: ^C::void);
 [c] func glDrawArrays(mode: int, first: int, count: uint);
 [c] func glDisableVertexAttribArray(index: uint);
+
+/*
+	Little wrapper around opengl immediate
+	rendering stuff
+*/
+
+/// convert the rgb values from 0 - 255 ranges
+/// to 0 - 1.0 range
+pub func setColor(r: f32, g: f32, b: f32) {
+	C::glColor3f(r / 255, g / 255, b / 255);
+}
+
+pub func drawRect(x: f32, y: f32, w: f32, h: f32) {
+	C::glBegin(GL_TRIANGLES);
+		C::glVertex2f(x, y);
+		C::glVertex2f(x + w, y);
+		C::glVertex2f(x + w, y + h);
+
+		C::glVertex2f(x, y);
+		C::glVertex2f(x, y + h);
+		C::glVertex2f(x + w, y + h);
+	C::glEnd();
+}

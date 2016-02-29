@@ -21,26 +21,19 @@ pub func main() -> int {
 
 	glfw::C::glfwMakeContextCurrent(window);
 
-	mut ratio: f64 = f64(WIDTH / HEIGHT);
-	mut time: f64;
-
-	// map width and height in tiles
-	mut mw: f32 = 32;
-	mut mh: f32 = 32;
-
 	game := game::Game::NewGame();
 
 	for {
+		// opengl setup stuff, setting opengl
+		// coords to nice pixels where 0,0  is at
+		// the top left instead
 		gl::C::glViewport(0, 0, WIDTH, HEIGHT);
 		gl::C::glClear(gl::GL_COLOR_BUFFER_BIT);
-
 		gl::C::glMatrixMode(gl::GL_PROJECTION);
 		gl::C::glLoadIdentity();
 		gl::C::glOrtho(0, f64(WIDTH), f64(HEIGHT), 0, 1, -1);
 		gl::C::glMatrixMode(gl::GL_MODELVIEW);
-
 		gl::C::glLoadIdentity();
-		time = glfw::C::glfwGetTime();
 
 		game.update();
 		game.render();
@@ -48,6 +41,7 @@ pub func main() -> int {
 		glfw::C::glfwSwapBuffers(window);
 		glfw::C::glfwPollEvents();
 
+		// todo make the close button work
 		if glfw::C::glfwGetKey(window, glfw::GLFW_KEY_ESCAPE) == glfw::GLFW_PRESS {
 			glfw::C::glfwDestroyWindow(window);
 			glfw::C::glfwTerminate();

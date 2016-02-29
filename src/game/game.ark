@@ -1,10 +1,9 @@
 #use std::mem
+#use std::io
 
-[c] func printf(fmt: ^u8, ...) -> int;
+#use gl
 
-pub type Game struct {
-		
-};
+pub type Game struct {};
 
 pub func (Game) NewGame() -> ^Game {
 	game := mem::alloc<Game>();
@@ -13,10 +12,11 @@ pub func (Game) NewGame() -> ^Game {
 }
 
 pub func (g: ^Game) render() {
-	
+	gl::setColor(255, 0, 255);
+	gl::drawRect(0, 0, 40, 40);
 }
 
 pub func (g: ^Game) update() {
-	
+		
 }
 

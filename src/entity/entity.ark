@@ -1,12 +1,35 @@
 #use std::mem
 
+[c] func printf(fmt: ^u8, ...) -> int;
+
 #use gl
+
+RAND_MAX : f32 = 2147483647;
+
+[c] func rand() -> int;
+
+type Colour struct {
+	r: f32,
+	g: f32,
+	b: f32,
+};
+
+func randomColour() -> ^Colour {
+	col := mem::alloc<Colour>();
+	@col = Colour {
+		r: f32(C::rand() & 128),
+		b: f32(C::rand() & 16),
+		g: f32(C::rand() & 255),
+	};
+	return col;
+}
 
 pub type Entity struct {
 	x: f32,
 	y: f32,
 	xDir: f32,
 	yDir: f32,
+	col: ^Colour,
 };
 
 pub func (Entity) NewEntity(x: f32, y: f32, xDir: f32, yDir: f32) -> ^mut Entity {
@@ -16,6 +39,7 @@ pub func (Entity) NewEntity(x: f32, y: f32, xDir: f32, yDir: f32) -> ^mut Entity
 		y: y,
 		xDir: xDir,
 		yDir: yDir,
+		col: randomColour(),
 	};
 	return player;
 }
@@ -32,6 +56,6 @@ pub func (p: ^mut Entity) update() {
 }
 
 pub func (p: ^mut Entity) render() {
-	gl::setColor(255, 0, 255);
+	gl::setColor(p.col.r, p.col.g, p.col.b);
 	gl::drawRect(p.x, p.y, 32, 32);
 }

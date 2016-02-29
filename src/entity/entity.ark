@@ -43,9 +43,9 @@ pub func (Entity) NewEntity(x: f32, y: f32, xDir: f32, yDir: f32) -> ^mut Entity
 }
 
 pub func (p: ^mut Entity) update() {
-	if (p.x >= f32(800 - 32)) || (p.x < f32(0)) {
+	if (p.x >= 800f - 32f) || (p.x < 0f) {
 		p.xDir *= -1;
-	} else if (p.y >= f32(600 - 32)) || (p.y < f32(0)) {
+	} else if (p.y >= 600f - 32f) || (p.y < 0f) {
 		p.yDir *= -1;
 	}
 

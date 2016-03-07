@@ -41,19 +41,19 @@ SDL_GL_DEPTH_SIZE := 6;
 // event flags
 SDL_QUIT := 0x100;
 
-[c] func SDL_CreateWindow(title: ^u8, x: int, y: int, w: int, h: int, flags: int) -> ^SDL_Window;
-[c] func SDL_GetWindowSurface(window: ^SDL_Window) -> ^SDL_Surface;
-[c] func SDL_DestroyWindow(window: ^SDL_Window);
+#[c] func SDL_CreateWindow(title: ^u8, x: int, y: int, w: int, h: int, flags: int) -> ^SDL_Window;
+#[c] func SDL_GetWindowSurface(window: ^SDL_Window) -> ^SDL_Surface;
+#[c] func SDL_DestroyWindow(window: ^SDL_Window);
 
-[c] func SDL_GL_SetSwapInterval(interval: int) -> int;
-[c] func SDL_GL_CreateContext(window: ^SDL_Window) -> ^SDL_GLContext;
-[c] func SDL_GL_DeleteContext(context: ^SDL_GLContext);
-[c] func SDL_GL_SwapWindow(window: ^SDL_Window);
+#[c] func SDL_GL_SetSwapInterval(interval: int) -> int;
+#[c] func SDL_GL_CreateContext(window: ^SDL_Window) -> ^SDL_GLContext;
+#[c] func SDL_GL_DeleteContext(context: ^SDL_GLContext);
+#[c] func SDL_GL_SwapWindow(window: ^SDL_Window);
 
 // flag isn't a flag, it's an enum
-[c] func SDL_GL_SetAttribute(flag: int, value: int);
+#[c] func SDL_GL_SetAttribute(flag: int, value: int);
 
-[c] func SDL_PollEvent(event: ^SDL_Event) -> bool;
-[c] func SDL_Init(foo: int) -> int;
-[c] func SDL_Delay(time: s64);
-[c] func SDL_Quit();
+#[c] func SDL_PollEvent(event: ^SDL_Event) -> bool;
+#[c] func SDL_Init(foo: int) -> int;
+#[c] func SDL_Delay(time: s64);
+#[c] func SDL_Quit();

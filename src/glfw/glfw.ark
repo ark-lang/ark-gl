@@ -14,22 +14,23 @@ pub GLFW_STICKY_KEYS: C::int = 0x00033002;
 pub GLFW_PRESS: C::int = 1;
 
 // window
-[c] func glfwWindowHint(target: C::int, hint: C::int);
-[c] func glfwCreateWindow(width: C::int, height: C::int, title: ^u8, monitor: ^GLFWmonitor, share: ^GLFWwindow) -> ^GLFWwindow;
-[c] func glfwWindowShouldClose(window: ^GLFWwindow);
-[c] func glfwPollEvents();
-[c] func glfwSwapBuffers(window: ^GLFWwindow);
-[c] func glfwDestroyWindow(window: ^GLFWwindow);
+#[c] func glfwWindowHint(target: C::int, hint: C::int);
+#[c] func glfwCreateWindow(width: C::int, height: C::int, title: ^u8, monitor: ^GLFWmonitor, share: ^GLFWwindow) -> ^GLFWwindow;
+#[c] func glfwWindowShouldClose(window: ^GLFWwindow);
+#[c] func glfwPollEvents();
+#[c] func glfwSwapBuffers(window: ^GLFWwindow);
+#[c] func glfwDestroyWindow(window: ^GLFWwindow);
+#[c] func glfwGetPrimaryMonitor() -> ^GLFWmonitor;
 
 // rendering?
-[c] func glfwMakeContextCurrent(context: ^GLFWwindow);
-[c] func glfwGetFramebufferSize(window: ^GLFWwindow, width: ^int, height: ^int);
-[c] func glfwGetTime() -> f64;
+#[c] func glfwMakeContextCurrent(context: ^GLFWwindow);
+#[c] func glfwGetFramebufferSize(window: ^GLFWwindow, width: ^int, height: ^int);
+#[c] func glfwGetTime() -> f64;
 
 // input
-[c] func glfwSetInputMode(context: ^GLFWwindow, mode: C::int, value: C::int) -> C::int;
-[c] func glfwGetKey(window: ^GLFWwindow, key: C::int) -> C::int;
+#[c] func glfwSetInputMode(context: ^GLFWwindow, mode: C::int, value: C::int) -> C::int;
+#[c] func glfwGetKey(window: ^GLFWwindow, key: C::int) -> C::int;
 
 // misc
-[c] func glfwTerminate();
-[c] func glfwInit() -> C::int;
+#[c] func glfwTerminate();
+#[c] func glfwInit() -> C::int;

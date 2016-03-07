@@ -21,32 +21,32 @@ pub GL_MODELVIEW := 0x1701;
 pub GL_FRONT_AND_BACK := 0x0408;
 pub GL_FILL := 0x1B02;
 
-[c] func glPolygonMode(face: int, mode: int);
-[c] func glClear(flag: int);
-[c] func glClearColor(r: f32, g: f32, b: f32, a: f32);
-[c] func glVertex2f(x: f32, y: f32);
-[c] func glVertex3f(x: f32, y: f32, z: f32);
-[c] func glColor3f(r: f32, g: f32, b: f32);
-[c] func glBegin(flag: int);
-[c] func glOrtho(left: f64, right: f64, bottom: f64, top: f64, near: f64, far: f64);
-[c] func glEnd();
-[c] func glMatrixMode(f: int);
-[c] func glLoadIdentity();
-[c] func glViewport(x: int, y: int, width: int, height: int);
-[c] func glRotatef(amount: f32, x: f32, y: f32, z: f32);
+#[c] func glPolygonMode(face: int, mode: int);
+#[c] func glClear(flag: int);
+#[c] func glClearColor(r: f32, g: f32, b: f32, a: f32);
+#[c] func glVertex2f(x: f32, y: f32);
+#[c] func glVertex3f(x: f32, y: f32, z: f32);
+#[c] func glColor3f(r: f32, g: f32, b: f32);
+#[c] func glBegin(flag: int);
+#[c] func glOrtho(left: f64, right: f64, bottom: f64, top: f64, near: f64, far: f64);
+#[c] func glEnd();
+#[c] func glMatrixMode(f: int);
+#[c] func glLoadIdentity();
+#[c] func glViewport(x: int, y: int, width: int, height: int);
+#[c] func glRotatef(amount: f32, x: f32, y: f32, z: f32);
 
 // glew
-[c] func glewInit() -> int;
-[c] func glGenBuffers(n: int, buffers: ^uint);
-[c] func glBindBuffer(target: int, buffer: uint);
-[c] func glBufferData(target: int, size: uint, data: ^C::void, usage: int);
-[c] func glGenVertexArrays(n: int, buffers: ^uint) -> int;
-[c] func glBindVertexArray(array: uint);
-[c] func glDrawElements(mode: int, count: uint, type: int, data: ^C::void);
-[c] func glEnableVertexAttribArray(index: uint);
-[c] func glVertexAttribPointer(index: uint, size: int, type: int, normalized: int, stride: uint, data: ^C::void);
-[c] func glDrawArrays(mode: int, first: int, count: uint);
-[c] func glDisableVertexAttribArray(index: uint);
+#[c] func glewInit() -> int;
+#[c] func glGenBuffers(n: int, buffers: ^uint);
+#[c] func glBindBuffer(target: int, buffer: uint);
+#[c] func glBufferData(target: int, size: uint, data: ^C::void, usage: int);
+#[c] func glGenVertexArrays(n: int, buffers: ^uint) -> int;
+#[c] func glBindVertexArray(array: uint);
+#[c] func glDrawElements(mode: int, count: uint, type: int, data: ^C::void);
+#[c] func glEnableVertexAttribArray(index: uint);
+#[c] func glVertexAttribPointer(index: uint, size: int, type: int, normalized: int, stride: uint, data: ^C::void);
+#[c] func glDrawArrays(mode: int, first: int, count: uint);
+#[c] func glDisableVertexAttribArray(index: uint);
 
 /*
 	Little wrapper around opengl immediate

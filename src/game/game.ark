@@ -9,7 +9,7 @@
 NUM_ENTITIES := 128;
 RAND_MAX : f32 = 2147483647;
 
-[c] func rand() -> int;
+#[c] func rand() -> int;
 
 pub type Game struct {
 	entities: ^mut adt::List<^mut entity::Entity>,	
@@ -22,13 +22,14 @@ pub func (Game) NewGame() -> ^mut Game {
 	};
 
 	mut i := 0;
-	speed : f32 = 4;
+	speed: f32 = 4;
+	size: f32 = 32;
 	for i < NUM_ENTITIES {
 		xDir := (f32(C::rand()) / RAND_MAX) * speed;
 		yDir := (f32(C::rand()) / RAND_MAX) * speed;
-		xPos := f32(C::rand() % (800 + 1));
-		yPos := f32(C::rand() % (600 + 1)); 
-		game.entities.append(entity::Entity::NewEntity(xPos, yPos, xDir, yDir));
+		xPos := f32(C::rand() % int((800f - (size * 2)) + size));
+		yPos := f32(C::rand() % int((600f - (size * 2)) + size)); 
+		game.entities.append(entity::Entity::NewEntity(xPos, yPos, xDir, yDir, size));
 		i += 1;
 	}
 
@@ -38,8 +39,12 @@ pub func (Game) NewGame() -> ^mut Game {
 pub func (g: ^Game) render() {
 	mut i := uint(0);
 	for i < g.entities.getLength() {
-		entity : ^entity::Entity = g.entities.get(i);
-		entity.render();
+		entity: ^mut entity::Entity = g.entities.get(i);
+		match entity {
+			some(e) => {
+				e.render();
+			},
+		}
 		i += 1;
 	}
 }

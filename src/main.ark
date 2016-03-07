@@ -2,7 +2,7 @@
 #use glfw
 #use game
 
-[c] func printf(fmt: ^u8, ...) -> int;
+#[c] func printf(fmt: ^u8, ...) -> int;
 
 WIDTH := 800;
 HEIGHT := 600;
